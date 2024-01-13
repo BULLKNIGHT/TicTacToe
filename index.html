@@ -87,7 +87,6 @@
 				}
 
 				showPlayerTurn() {
-					console.log(this.playerTurn);
 					if (this.playerTurn === "X")
 						this.turnDisplayElement.innerText = "Player 1 turn";
 					if (this.playerTurn === "O")
@@ -113,7 +112,6 @@
 				}
 
 				playerClick(id) {
-					// console.log("Inside playerClick()");
 					const [i, j] = this.convertIdtoIndex(id);
 					if (this.board[i][j] === "") {
 						this.board[i][j] = this.playerTurn;
@@ -123,7 +121,6 @@
 				}
 
 				changePlayerTurn(id) {
-					// console.log("Inside changePlayerTurn()");
 					this.playerTurn = this.playerTurn === "X" ? "O" : "X";
 					this.renderBoard();
 					this.checkWinningCondition(id);
@@ -140,18 +137,24 @@
 						[1, 5, 9],
 						[3, 5, 7],
 					];
-					winningCondition.forEach((wc) => {
+					let isWinningConditionMeet = false;
+					winningCondition.forEach((wc, idx) => {
 						const val = document.getElementById(id).innerText;
 						let first = document.getElementById(wc[0]).innerText;
 						let second = document.getElementById(wc[1]).innerText;
 						let third = document.getElementById(wc[2]).innerText;
 						if (first === val && second === val && third === val) {
-							// console.log(first === second);
-							if (val === "X") alert("Congratulations! Player1 wins");
-							else alert("Congratulations! Player2 wins");
-							initializeGame();
+							isWinningConditionMeet = true;
+							return;
 						}
 					});
+
+					if (isWinningConditionMeet) {
+						const val = document.getElementById(id).innerText;
+						if (val === "X") alert("Congratulations! Player1 wins");
+						else alert("Congratulations! Player2 wins");
+						initializeGame();
+					}
 
 					if (this.counter == 9) {
 						alert("Draw!");
@@ -169,7 +172,6 @@
 			initializeGame();
 
 			function play(that) {
-				// console.log(that.id);
 				currentGame.playerClick(that.id);
 			}
 		</script>
